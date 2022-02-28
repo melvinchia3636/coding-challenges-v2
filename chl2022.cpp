@@ -26,6 +26,7 @@ std::vector<std::string> splitString(std::string str, std::string delimiter = " 
     return words;
 }
 
+
 int chopTheTree() {
     float numberOfTrees;
     std::cout << "Number of trees: ";
@@ -254,15 +255,122 @@ void arrangeIC() {
     }
 }
 
-int main() {
-    std::vector<int> a {4, 5, 6};
-    double b[] = {7, 8, 9};
-    std::list<std::string> c {"a", "b", "c"};
-    for (auto tup : boost::combine(a, b, c, a)) {    // <---
-        int x, w;
-        double y;
-        std::string z;
-        boost::tie(x, y, z, w) = tup;
-        printf("%d %g %s %d\n", x, y, z.c_str(), w);
+void mineSweeper() {
+    std::string input1;
+    std::cout << "Please enter the row count, column count and mine count of your board: ";
+    std::getline(std::cin >> std::ws, input1);
+
+    std::vector<std::string> splittedInput1 = splitString(input1);
+    int rows = std::stoi(splittedInput1[0]);
+    int cols = std::stoi(splittedInput1[1]);
+    int mineCount = std::stoi(splittedInput1[2]);
+
+    char mine[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            mine[i][j] = ' ';
+        }
     }
+
+    for (int i = 0; i < mineCount; i++) {
+        std::string mineCoorsInput;
+        std::cout << "Please enter the x and y coordinate of mine #" << i << " : ";
+        std::getline(std::cin >> std::ws, mineCoorsInput);
+
+        std::vector<std::string> mineCoors = splitString(mineCoorsInput);
+        int mineRow = std::stoi(mineCoors[0]);
+        int mineCol = std::stoi(mineCoors[1]);
+
+        mine[mineRow][mineCol] = '*';
+    }
+
+    int neighbour[8][2] = {
+        {-1, -1},
+        {-1, 0},
+        {-1, 1},
+        {0, -1},
+        {0, 1},
+        {1, -1},
+        {1, 0},
+        {1, 1}
+    };
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (mine[i][j] != '*') {
+                int neighbourSUSCount = 0;
+            
+                for (int n = 0; n < 8; n++) {
+                    if (i+neighbour[n][0] >= 0 and i+neighbour[n][0] < rows) {
+                        if (j+neighbour[n][1] >= 0 and j+neighbour[n][1] < cols) {
+                            if (mine[i+neighbour[n][0]][j+neighbour[n][1]] == '*') {
+                                neighbourSUSCount ++;
+                            }
+                        }
+                    }
+                }
+                mine[i][j] = neighbourSUSCount + '0';
+            }
+
+            std::cout << mine[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+    return;
+}
+
+std::string round2(double x) { 
+    std::string n = std::to_string(x);
+    std::string wtd = n.substr(0, n.find('.')+4);
+    int l = wtd.back() - '0';
+    wtd = wtd.substr(0, wtd.length()-1);
+    if (l >= 5) {
+        wtd[wtd.length() - 1] = std::to_string(wtd.back() - '0' + 1)[0];
+    }
+    return wtd;
+} 
+
+void linearInterpolation() {
+    int count;
+    std::cout << "Please enter the number of inputs: ";
+    std::cin >> count;
+
+    std::vector<std::string> input;
+    for (int i = 0; i < count; i++) {
+        std::string inp;
+        std::cout << "Please enter the value for input #" << i+1 << ": ";
+        std::cin >> inp;
+        input.push_back(inp);
+    }
+
+    for (int i = 0; i < input.size(); i++) {
+        if (input[i] == "#") {
+            int x0, x1;
+            double y0, y1;
+
+            for (int f = i-1; f >= 0; f--) {
+                if (input[f] != "#") {
+                    x0 = f+1;
+                    y0 = std::stod(input[f]);
+                    break;
+                }
+            }
+
+            for (int f = i+1; f < input.size(); f++) {
+                if (input[f] != "#") {
+                    x1 = f+1;
+                    y1 = std::stod(input[f]);
+                    break;
+                }
+            }
+
+            float ans = y0 + ((y1-y0)/(x1-x0)) * (i+1 - x0);
+            std::cout << round2(ans) << std::endl;
+        }
+    }
+}
+
+int main() {
+    linearInterpolation();
 }
