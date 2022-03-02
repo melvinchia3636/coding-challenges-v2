@@ -121,6 +121,21 @@ std::vector<std::vector<int>> slidingSum(std::vector<int> arr, int n, int k) {
     return ans;
 }
 
+bool firstBeforeSecond(std::string str, char first, char second) {
+	return str.find_last_of(first) < str.find(second);
+}
+
+std::vector<int> digitalCipher(std::string message, int key) {
+	std::string key_char = std::to_string(key);
+    std::vector<int> ans;
+    for (int i = 0; i < message.size(); i++) {
+        int c = message[i] - 'a';
+        int k = key_char[i % key_char.size()] - '0';
+        ans.push_back(c + k + 1);
+    }
+    return ans;
+}
+
 int main() {
     // cout << isNumberPalindrome(1122332211) << endl;
     // std::cout << longBurp(13) << std::endl;
@@ -135,9 +150,10 @@ int main() {
     // for (int i = 0; i < ans.size(); i++) {
     //     printIntVector(ans[i]);
     // }
-
-    std::vector<std::vector<int>> ans = slidingSum({1, 4, 2, 3, 5, 0}, 2, 5);
-    for (int i = 0; i < ans.size(); i++) {
-        printIntVector(ans[i]);
-    }
+    // std::vector<std::vector<int>> ans = slidingSum({1, 4, 2, 3, 5, 0}, 2, 5);
+    // for (int i = 0; i < ans.size(); i++) {
+    //     printIntVector(ans[i]);
+    // }
+    // std::cout << firstBeforeSecond("a rabbit jumps joyfully", 'a', 'j') << std::endl;
+    printIntVector(digitalCipher("pakistanairforce", 1965));
 }
