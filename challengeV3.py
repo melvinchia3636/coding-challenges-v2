@@ -1,3 +1,5 @@
+from itertools import zip_longest
+from itertools import combinations
 from random import randint, shuffle
 from time import perf_counter
 import string
@@ -87,18 +89,6 @@ def mangle(txt):
     return "".join([lambda i: i, str.upper][s[s.index(i)+1].lower() in "aeiou"](s[s.index(i)+1]) if i in s else i for i in txt)
 
 
-class Test:
-    @classmethod
-    def assert_equals(self, v1, v2, message=""):
-        print(v1, '<>', v2)
-        assert v1 == v2, message or 'two val not equal lol'
-
-    @classmethod
-    def assert_not_equals(self, v1, v2, message=""):
-        print(v1, '<!>', v2)
-        assert v1 != v2, message or 'two val not equal lol'
-
-
 def shadow_sentence(a, b):
     a, b = a.split(), b.split()
     return len(a) == len(b) and all(len(a[i]) == len(b[i]) and not len(set(a[i]).intersection(set(b[i]))) for i in range(len(a)))
@@ -137,10 +127,12 @@ def kaprekar(num):
 
 def single_number(nums): return {v: k for k, v in Counter(nums).items()}[1]
 
+
 def odd_sort(lst):
-    even = iter(sorted(i for i in lst if i%2 and i))
-    res = [i if not i%2 or i == 0 else next(even) for i in lst]
+    even = iter(sorted(i for i in lst if i % 2 and i))
+    res = [i if not i % 2 or i == 0 else next(even) for i in lst]
     return res
+
 
 def product_equal_target(lst, target):
     lst = sorted(lst)[::-1]
@@ -151,34 +143,43 @@ def product_equal_target(lst, target):
             res[i] += 1
     return res[::-1]
 
-from itertools import combinations
 
 def combo(l, n): list(map(list, combinations(l, n)))
+
+
 def combo(lst, n):
-    if not n: return [[]]
+    if not n:
+        return [[]]
     target = []
     for i in range(len(lst)):
         for p in combo(lst[i+1:], n-1):
             target.append([lst[i]]+p)
     return target
 
-def reverse(s): return "" if not s else s[-1] + reverse(s[:-1]);
 
-gpa_calculator = lambda s: "{} GPA for {} is {}".format(s["name"], s["semester"], '{:.2f}'.format(sum(i["credit_hours"]*"FDCBA".index(i["grade"]) for i in s["courses"]) / sum(i["credit_hours"] for i in s["courses"])))
+def reverse(s): return "" if not s else s[-1] + reverse(s[:-1])
+
+
+def gpa_calculator(s): return "{} GPA for {} is {}".format(s["name"], s["semester"], '{:.2f}'.format(sum(
+    i["credit_hours"]*"FDCBA".index(i["grade"]) for i in s["courses"]) / sum(i["credit_hours"] for i in s["courses"])))
+
 
 def maximum_items(prices, budget):
     budget = int(budget[1:])
     items = sorted(int(i[1:]) for i in prices)
     can_buy = 0
     for i in items:
-        if budget - i < 0: break
+        if budget - i < 0:
+            break
         can_buy += 1
         budget -= i
     return can_buy if can_buy else "Not enough funds!"
-	
+
+
 def mineSweeper():
     # take input from user ex. 3 4 5 means 3 rows, 4 colums, and 5 mines in the board
-    input1 = input("Please enter the row count, column count and mine count of your board: ")
+    input1 = input(
+        "Please enter the row count, column count and mine count of your board: ")
 
     # split the user input, convert each value into int and map them into 3 different variables
     splittedInput1 = input1.split()
@@ -189,7 +190,8 @@ def mineSweeper():
 
     # take input mineCount times from the user and replace corresponding element in the board with "*"
     for i in range(mineCount):
-        mineCoorsInput = input(f"Please enter the x and y coordinate of mine #{i}: ")
+        mineCoorsInput = input(
+            f"Please enter the x and y coordinate of mine #{i}: ")
         mineRow, mineCol = [int(i) for i in mineCoorsInput.split()]
         mine[mineRow][mineCol] = '*'
 
@@ -227,17 +229,23 @@ def mineSweeper():
 
     # aww yeah
 
+
 def perrin(n):
-    if n == 2: return 2
-    if n == 1: return 0
-    if n == 0: return 3
+    if n == 2:
+        return 2
+    if n == 1:
+        return 0
+    if n == 0:
+        return 3
     return perrin(n-2) + perrin(n-3)
 
-from itertools import zip_longest
 
-def post_fix(s): return eval("".join("".join(i) for i in zip_longest([i for i in s.split() if i.isdigit()], [i for i in s.split() if not i.isdigit()], fillvalue="")))
+def post_fix(s): return eval("".join("".join(i) for i in zip_longest(
+    [i for i in s.split() if i.isdigit()], [i for i in s.split() if not i.isdigit()], fillvalue="")))
+
 
 def happiness_number(s): return sum([[-1, 1][s[i]+s[i+1] in ":)(:"] for i in range(len(s)-1) if (s[i]+s[i+1]) in ":),(:):,:("])
+
 
 def max_possible(n1, n2):
     n1 = list(str(n1))
@@ -248,6 +256,7 @@ def max_possible(n1, n2):
             n1[j] = n2.pop()
 
     return int("".join(n1))
+
 
 class Test:
     @classmethod
@@ -260,4 +269,64 @@ class Test:
         print(v1, '<!>', v2)
         assert v1 != v2, message or 'two val not equal lol'
 
-cars = lambda w, b, f: min(w//4, b, f//2)
+
+def cars(w, b, f): return min(w//4, b, f//2)
+
+
+def sums_of_powers_of_two(n): return [int(
+    v)*(2**i) for i, v in enumerate(str(bin(n)[2:][::-1])) if int(v)]
+
+
+def sum_missing_numbers(lst): return sum(
+    set(range(min(lst), max(lst)+1)) - set(lst))
+
+
+def pascal_triangle(layer):
+    res = [[1]]
+    for i in range(1, layer):
+        res.append([])
+        for j in range(i+1):
+            res[-1].append((res[-2][j-1] if j-1 >= 0 else 0)+(res[-2][j] if j < len(res[-2]) else 0))
+    return res
+
+
+can_give_blood = lambda d, r: not(d[-1] == "+" and r[-1] != "+") and (d[:-1] in r[:-1] or d[:-1] == "O")
+	
+
+def mubashir_cipher(message):
+    key = [['m', 'c'], ['u', 'e'], ['b', 'g'], ['a', 'k'], ['s', 'v'], ['h', 'x'],['i', 'z'], ['r', 'y'], ['p', 'w'], ['l', 'n'], ['o', 'j'], ['t', 'f'], ['q', 'd']]
+    return "".join(dict(key+[i[::-1] for i in key])[i] if i.isalpha() else i for i in message)
+
+
+class Test:
+    @classmethod
+    def assert_equals(self, v1, v2, message=""):
+        print(v1, '<>', v2)
+        assert v1 == v2, message or 'two val not equal lol'
+
+    @classmethod
+    def assert_not_equals(self, v1, v2, message=""):
+        print(v1, '<!>', v2)
+        assert v1 != v2, message or 'two val not equal lol'
+
+
+def binary_to_text(str):
+    return "".join(chr(int(str[i:i+8], 2)) for i in range(0, len(str), 8))
+
+def odd_one_out(lst):
+    lst = Counter([len(i) for i in lst])
+    return bool(len(lst) == 2 and {v:i for i,v in lst.items()}.get(1))
+
+import math
+def hex_color_mixer(lst):
+    return "#"+"".join(hex((sum(i) // len(lst)) + ((sum(i) / len(lst)) - (sum(i) // len(lst)) >= 0.5))[2:].zfill(2) for i in zip(*[[int(i[1:][j:j+2], 16) for j in range(0, 6, 2)] for i in lst])).upper()
+
+Test.assert_equals(hex_color_mixer(["#FFFF00", "#FF0000"]), "#FF8000", "Example #1")
+Test.assert_equals(hex_color_mixer(["#FFFF00", "#0000FF"]), "#808080", "Example #2")
+Test.assert_equals(hex_color_mixer(["#B60E73", "#0EAEB6"]), "#625E95", "Example #3")
+Test.assert_equals(hex_color_mixer(["#FF0000", "#00FF00", "#0000FF"]), "#555555")
+Test.assert_equals(hex_color_mixer(["#99CC00", "#663399", "#1A8191"]), "#5E8063")
+Test.assert_equals(hex_color_mixer(["#918381", "#D53B21", "#A54C83", "#DEFACF"]), "#BA817D")
+Test.assert_equals(hex_color_mixer(["#140A23", "#46B31E", "#CFDF08", "#263534", "#EAD1FB", "#235E02"]), "#65803F")
+Test.assert_equals(hex_color_mixer(["#FFFFFF", "#000000", "#000000", "#FFFFFF"]), "#808080")
+Test.assert_equals(hex_color_mixer(["#CCCCCC"]), "#CCCCCC")
