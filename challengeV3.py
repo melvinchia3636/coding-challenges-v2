@@ -146,7 +146,8 @@ def sun_loungers(str):
 	for (i,v) in enumerate(str):
 		if v:count+=v=='00'or math.floor(len(v)/2)if i==len(str)-2 or i==1 else math.ceil((len(v)-2)/2)if v not in['0','00']else 0
 	return count
-fib_str=lambda n,f:f[0]if n==1 else ', '.join([f[0],fib_str(n-1,[f[1],f[1]+f[0]])])
+def fib_str(n, f):
+    return f[0]if n==1 else ', '.join([f[0],fib_str(n-1,[f[1],f[1]+f[0]])])
 
 class Test:
 	@classmethod
