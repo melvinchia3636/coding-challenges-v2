@@ -44,15 +44,9 @@ def maxCandyCountRecursive(candy_per_ringgit, min_wrappers_count, exchange_candy
 
     return maxCandyCountRecursive(candy_per_ringgit, min_wrappers_count, exchange_candy_count, money, candy_in_hand, wrapper_in_hand)
 
-# print(maxCandyCountRecursive(2, 3, 1, 1)) # 2
-# print(maxCandyCountRecursive(3, 2, 1, 1)) # 5
-# print(maxCandyCountRecursive(1, 5, 2, 30)) # 48
-# print(maxCandyCountRecursive(2, 8, 3, 50)) # 157
-# print(maxCandyCountRecursive(3, 10, 9, 100)) # 2919
 
-from functools import reduce;
-
-def sumOfListWithoutSumKeyword(lst):
-    return reduce(lambda a, b: a + b, lst)
-
-print(sumOfListWithoutSumKeyword([8, 7, 6]))
+print(maxCandyCount(2, 3, 1, 1)) # 2
+print(maxCandyCount(3, 2, 1, 1)) # 5
+print(maxCandyCount(1, 5, 2, 30)) # 48
+print(maxCandyCount(2, 8, 3, 50)) # 157
+print(maxCandyCount(3, 10, 9, 100)) # 2919

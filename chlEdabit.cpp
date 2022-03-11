@@ -136,6 +136,10 @@ std::vector<int> digitalCipher(std::string message, int key) {
     return ans;
 }
 
+std::string getFirstItem(std::string arr[10]) {
+    return arr[0];
+}
+
 int main() {
     // cout << isNumberPalindrome(1122332211) << endl;
     // std::cout << longBurp(13) << std::endl;
@@ -155,5 +159,12 @@ int main() {
     //     printIntVector(ans[i]);
     // }
     // std::cout << firstBeforeSecond("a rabbit jumps joyfully", 'a', 'j') << std::endl;
-    printIntVector(digitalCipher("pakistanairforce", 1965));
+    // printIntVector(digitalCipher("pakistanairforce", 1965));
+    // printStringVector(bestWords({"berry","whiz","laughed","ghetto","psychic"}));
+    std::string arr[10] = {"Hello", "World"};
+    arr[9] = "!";
+    arr[4] = "Fuck my life";
+    for (int i = 0; i < sizeof(arr); i++) {
+        std::cout << i << " " << arr[i] << std::endl;
+    }
 }

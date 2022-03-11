@@ -1,3 +1,4 @@
+from functools import reduce
 import math
 from itertools import zip_longest,combinations
 import string
@@ -149,8 +150,51 @@ def sun_loungers(str):
 def fib_str(n, f):
     return f[0]if n==1 else ', '.join([f[0],fib_str(n-1,[f[1],f[1]+f[0]])])
 
+def crop_hydrated(lst):
+	neighbour=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]
+	for i, v in enumerate(lst):
+		for j, w in enumerate(v):
+			if w=='c':
+				can_pass = False
+				for n in neighbour:
+					if i+n[0]>=0 and i+n[0] < len(lst):
+						if j+n[1]>=0 and j+n[1] < len(lst[0]):
+							if lst[i+n[0]][j+n[1]] == 'w':
+								can_pass = True
+				if not can_pass: return False
+	return True
+
+def who_passed(marks):
+	return sorted(k for k, v in marks.items() if all(eval(w) == 1 for w in v))
+
+def constraint(s):
+	s = [i.lower() for i in s if i.isalpha() or i == " "]
+	if len(set(string.ascii_lowercase+(" " if " " in s else "")) - set(s)) == 0: return "Pangram"
+	if len(set(i for i in s if i != " ")) == len([i for i in s if i != " "]): return "Heterogram"
+	if len(set(i[0] for i in "".join(s).split())) == 1: return "Tautogram"
+	if bool(reduce(lambda x, y: x.intersection(y), [set(i) for i in "".join(s).split()])): return "Transgram"
+	return "Sentence"
+
+from itertools import permutations
+def jumble(txt, index):
+	return "".join(list(permutations(txt, len(txt)))[index])
+
 class Test:
 	@classmethod
-	def assert_equals(self,v1,v2,message=''):print(v1,'<>',v2);assert v1==v2,message or'two val not equal lol'
+	def assert_equals(self,v1,v2,message=''):
+		print(v1,'<>',v2);
+		assert v1==v2,message or'two val not equal lol'
 	@classmethod
 	def assert_not_equals(self,v1,v2,message=''):print(v1,'<!>',v2);assert v1!=v2,message or'two val not equal lol'
+
+def cup_swapping(swaps):
+	cups = {"A": 0, "B": 1, "C": 0}
+	for i in swaps:
+		if cups[i[0]] or cups[i[1]]:
+			cups[i[0]], cups[i[1]] = cups[i[1]], cups[i[0]]
+	return [i for i in cups if cups[i]][0]
+
+t = 10
+
+while (t:=t-1):
+	print(t)
