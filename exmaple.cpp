@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <string>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -72,4 +73,18 @@ int main()
   float marks[7] = {
       80, 75, 58, 88, 90, 75, 80};
   cout << fixed << setprecision(2) << findAverageMark(marks) << endl;
+
+  int x = 100, y = 250;
+  float rabbit = (y - 2 * x) / 2;
+  float chicken = ((4 * x) - y) / 2;
+
+  if (roundf(rabbit) == rabbit || roundf(chicken) == chicken)
+  {
+    cout << fixed << setprecision(0) << rabbit << " " << chicken << endl;
+  }
+  else
+  {
+    cout << "No feasible solution" << endl;
+  }
+
 }

@@ -9,15 +9,17 @@
 #include <cstring>
 #include <chrono>
 #include <list>
-#include <boost/range/combine.hpp>
+#include <bits/stdc++.h>
 
 typedef std::chrono::system_clock Clock;
 
-std::vector<std::string> splitString(std::string str, std::string delimiter = " ") {
+std::vector<std::string> splitString(std::string str, std::string delimiter = " ")
+{
     std::vector<std::string> words;
     int start = 0;
     int end = str.find(delimiter);
-    while (end != -1) {
+    while (end != -1)
+    {
         words.push_back(str.substr(start, end - start));
         start = end + delimiter.size();
         end = str.find(delimiter, start);
@@ -26,12 +28,13 @@ std::vector<std::string> splitString(std::string str, std::string delimiter = " 
     return words;
 }
 
-
-int chopTheTree() {
+int chopTheTree()
+{
     float numberOfTrees;
     std::cout << "Number of trees: ";
     std::cin >> numberOfTrees;
-    if (numberOfTrees <= 0 or floor(numberOfTrees) != numberOfTrees) {
+    if (numberOfTrees <= 0 or floor(numberOfTrees) != numberOfTrees)
+    {
         std::cout << "You must specify a positive integer number for the number of trees!" << std::endl;
         return -1;
     }
@@ -45,23 +48,26 @@ int chopTheTree() {
     treeTypesMap["European White Birch"] = 5;
     treeTypesMap["White Fir"] = 7.5;
 
-    for (int i = 0; i < numberOfTrees; i++) {
+    for (int i = 0; i < numberOfTrees; i++)
+    {
         float circumference;
         std::string treeType;
-        
+
         std::cout << "Please enter circumference: ";
         std::cin >> circumference;
-        if (circumference <= 0.0) {
+        if (circumference <= 0.0)
+        {
             std::cout << "The circumference for " << treeType << " must be greater than 0!" << std::endl;
             continue;
         }
-        
+
         std::cout << "Please enter tree type: ";
         std::getline(std::cin >> std::ws, treeType);
-        if (not treeTypesMap.count(treeType)) {
+        if (not treeTypesMap.count(treeType))
+        {
             std::cout << "Species entered is not available!" << std::endl;
             continue;
-        }        
+        }
 
         float DBH = circumference / 3.141592;
         float treeAge = DBH * treeTypesMap[treeType];
@@ -72,16 +78,18 @@ int chopTheTree() {
     return 0;
 }
 
-bool charNeedRemove(char c) {
+bool charNeedRemove(char c)
+{
     return not isalnum(c) and c != '\'';
 }
 
-void findVocabulary() {
+void findVocabulary()
+{
     // accept input
     std::string paragraph;
     std::cout << "Enter the paragraph you want to calculate for vocab: " << std::endl;
     std::getline(std::cin >> std::ws, paragraph);
-    
+
     // transfrom the string to uppercase
     transform(paragraph.begin(), paragraph.end(), paragraph.begin(), ::toupper);
 
@@ -89,56 +97,69 @@ void findVocabulary() {
     std::vector<std::string> splittedString = splitString(paragraph);
 
     // remove special character except "\'"
-    for (int i = 0; i < splittedString.size(); i++) {
-        splittedString[i].erase(std::remove_if(splittedString[i].begin(), splittedString[i].end(), [](char c){return not isalnum(c) and c != '\'';}), splittedString[i].end());
+    for (int i = 0; i < splittedString.size(); i++)
+    {
+        splittedString[i].erase(std::remove_if(splittedString[i].begin(), splittedString[i].end(), [](char c)
+                                               { return not isalnum(c) and c != '\''; }),
+                                splittedString[i].end());
     }
 
-    //sort the string
+    // sort the string
     sort(splittedString.begin(), splittedString.end());
 
     // remove duplicates
-    splittedString.erase(unique(splittedString.begin(), splittedString.end() ), splittedString.end() );
+    splittedString.erase(unique(splittedString.begin(), splittedString.end()), splittedString.end());
 
     // output the result
     std::cout << splittedString.size() << std::endl;
-    for (int i = 0; i < splittedString.size(); i++) {
+    for (int i = 0; i < splittedString.size(); i++)
+    {
         std::cout << splittedString[i] << std::endl;
     }
 
     return;
 }
 
-std::array<int, 2> longestContinuousSTR(std::string DNA, std::string STR) {
+std::array<int, 2> longestContinuousSTR(std::string DNA, std::string STR)
+{
     int occurence = DNA.find(STR, 0);
     int max_count = 0;
     int count = 0;
     int STR_len = STR.length();
 
-    while (occurence != -1) {
-        int next_occurence = DNA.find(STR, occurence+1);
-        if (next_occurence == occurence + STR_len) {
-            count ++;
-        } else {
+    while (occurence != -1)
+    {
+        int next_occurence = DNA.find(STR, occurence + 1);
+        if (next_occurence == occurence + STR_len)
+        {
+            count++;
+        }
+        else
+        {
             max_count = std::max(max_count, count);
             count = 0;
         }
-        if (next_occurence == -1) break;
+        if (next_occurence == -1)
+            break;
         occurence = next_occurence;
     }
 
     return {occurence - max_count * STR_len, (max_count + 1) * STR_len};
 }
 
-void DNAMatching() {
+void DNAMatching()
+{
     std::string STR, crimeScene;
     int suspect_count = 4;
-    std::string suspect[suspect_count];;
+    std::string suspect[suspect_count];
+    ;
 
     std::cout << "Please enter STR: ";
     std::cin >> STR;
     std::cout << "Please enter DNA found in crime scene: ";
     std::cin >> crimeScene;
-    for (int i = 0; i < suspect_count; i++) {
+    for (int i = 0; i < suspect_count; i++)
+    {
         std::cout << "Please enter DNA of suspect " << i << " : ";
         std::cin >> suspect[i];
     }
@@ -146,23 +167,29 @@ void DNAMatching() {
     std::array<int, 2> longestSTRInCrimeScene = longestContinuousSTR(crimeScene, STR);
     std::string longestSTR = crimeScene.substr(longestSTRInCrimeScene[0], longestSTRInCrimeScene[1]);
 
-    for (int i = 0; i < suspect_count; i++) {
-        if (suspect[i].substr(longestSTRInCrimeScene[0], longestSTRInCrimeScene[1]) == longestSTR) {
-            std::cout << i + 1 << std::endl << longestSTRInCrimeScene[1] / STR.length() << std::endl;
+    for (int i = 0; i < suspect_count; i++)
+    {
+        if (suspect[i].substr(longestSTRInCrimeScene[0], longestSTRInCrimeScene[1]) == longestSTR)
+        {
+            std::cout << i + 1 << std::endl
+                      << longestSTRInCrimeScene[1] / STR.length() << std::endl;
             return;
         }
     }
-    std::cout << 0 << std::endl << 0 << std::endl;
+    std::cout << 0 << std::endl
+              << 0 << std::endl;
 }
 
-void twoOPT() {
+void twoOPT()
+{
     int changeCount;
     std::cout << "Please enter the number of iterations: ";
     std::cin >> changeCount;
 
     std::string route = "abcdefgha";
 
-    for (int i = 0; i < changeCount; i++) {
+    for (int i = 0; i < changeCount; i++)
+    {
         std::string swap;
         std::cout << "Please enter the start and end node of iteration " << i << ": ";
         std::cin >> swap;
@@ -172,10 +199,11 @@ void twoOPT() {
 
         int start = std::min(first, second);
         int end = std::max(first, second);
-        
+
         std::string result = route;
-        for (int j = 0; j <= end - start; j++) {
-            result[start+j] = route[end-j];
+        for (int j = 0; j <= end - start; j++)
+        {
+            result[start + j] = route[end - j];
         }
         route = result;
     }
@@ -184,7 +212,8 @@ void twoOPT() {
     return;
 }
 
-void arrangeIC() {
+void arrangeIC()
+{
     std::string ICString;
     std::cout << "Please enter the IC List : ";
     std::cin >> ICString;
@@ -195,14 +224,15 @@ void arrangeIC() {
     struct tm *ntm = std::localtime(&now_c);
 
     std::vector<std::map<std::string, std::string>> ICInfoList;
-    for (int i = 0; i < ICList.size(); i++) {
+    for (int i = 0; i < ICList.size(); i++)
+    {
         std::string birthDate = splitString(ICList[i], "-")[0];
         std::map<std::string, std::string> ICInfo;
-        
+
         std::string genderCode(1, ICList[i].back());
         int genderCodeNum = std::stoi(genderCode);
         std::string birthYear = birthDate.substr(0, 2);
-        birthYear = (std::stoi(birthYear) > ntm->tm_year-100 ? "19" : "20") + birthYear;
+        birthYear = (std::stoi(birthYear) > ntm->tm_year - 100 ? "19" : "20") + birthYear;
 
         ICInfo["original"] = ICList[i];
         ICInfo["birthDate"] = birthDate;
@@ -216,16 +246,16 @@ void arrangeIC() {
 
     std::vector<std::string> sortPriorities;
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++)
+    {
         std::string input;
         std::cout << "Please enter sort priority #" << i << " : ";
         std::getline(std::cin >> std::ws, input);
         sortPriorities.push_back(input);
     }
 
-    std::sort(ICInfoList.begin(), ICInfoList.end(), [sortPriorities](
-        std::map<std::string, std::string> a, std::map<std::string, std::string> b
-    ){
+    std::sort(ICInfoList.begin(), ICInfoList.end(), [sortPriorities](std::map<std::string, std::string> a, std::map<std::string, std::string> b)
+              {
         for (int s = 0; s < sortPriorities.size(); s++) {
             if (sortPriorities[s].find("Gender") != -1) {
                 if (sortPriorities[s].find("Female") != -1) {
@@ -247,15 +277,16 @@ void arrangeIC() {
                 if (a["birthYear"]+a["birthMonth"]+a["birthDay"] > b["birthYear"]+b["birthMonth"]+b["birthDay"]) return false;
             }
         }
-        return false;
-    });
+        return false; });
 
-    for (int i = 0; i < ICInfoList.size(); i++) {
+    for (int i = 0; i < ICInfoList.size(); i++)
+    {
         std::cout << ICInfoList[i]["original"] << " " << ICInfoList[i]["birthDay"] << " " << ICInfoList[i]["birthMonth"] << " " << ICInfoList[i]["birthYear"] << " " << (ICInfoList[i]["gender"] == "1" ? "Male" : "Female") << std::endl;
     }
 }
 
-void mineSweeper() {
+void mineSweeper()
+{
     std::string input1;
     std::cout << "Please enter the row count, column count and mine count of your board: ";
     std::getline(std::cin >> std::ws, input1);
@@ -267,13 +298,16 @@ void mineSweeper() {
 
     char mine[rows][cols];
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
             mine[i][j] = ' ';
         }
     }
 
-    for (int i = 0; i < mineCount; i++) {
+    for (int i = 0; i < mineCount; i++)
+    {
         std::string mineCoorsInput;
         std::cout << "Please enter the x and y coordinate of mine #" << i << " : ";
         std::getline(std::cin >> std::ws, mineCoorsInput);
@@ -293,19 +327,25 @@ void mineSweeper() {
         {0, 1},
         {1, -1},
         {1, 0},
-        {1, 1}
-    };
+        {1, 1}};
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            if (mine[i][j] != '*') {
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            if (mine[i][j] != '*')
+            {
                 int neighbourSUSCount = 0;
-            
-                for (int n = 0; n < 8; n++) {
-                    if (i+neighbour[n][0] >= 0 and i+neighbour[n][0] < rows) {
-                        if (j+neighbour[n][1] >= 0 and j+neighbour[n][1] < cols) {
-                            if (mine[i+neighbour[n][0]][j+neighbour[n][1]] == '*') {
-                                neighbourSUSCount ++;
+
+                for (int n = 0; n < 8; n++)
+                {
+                    if (i + neighbour[n][0] >= 0 and i + neighbour[n][0] < rows)
+                    {
+                        if (j + neighbour[n][1] >= 0 and j + neighbour[n][1] < cols)
+                        {
+                            if (mine[i + neighbour[n][0]][j + neighbour[n][1]] == '*')
+                            {
+                                neighbourSUSCount++;
                             }
                         }
                     }
@@ -320,57 +360,130 @@ void mineSweeper() {
     return;
 }
 
-std::string round2(double x) { 
+std::string round2(double x)
+{
     std::string n = std::to_string(x);
-    std::string wtd = n.substr(0, n.find('.')+4);
+    std::string wtd = n.substr(0, n.find('.') + 4);
     int l = wtd.back() - '0';
-    wtd = wtd.substr(0, wtd.length()-1);
-    if (l >= 5) {
+    wtd = wtd.substr(0, wtd.length() - 1);
+    if (l >= 5)
+    {
         wtd[wtd.length() - 1] = std::to_string(wtd.back() - '0' + 1)[0];
     }
     return wtd;
-} 
+}
 
-void linearInterpolation() {
+void linearInterpolation()
+{
     int count;
     std::cout << "Please enter the number of inputs: ";
     std::cin >> count;
 
     std::vector<std::string> input;
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++)
+    {
         std::string inp;
-        std::cout << "Please enter the value for input #" << i+1 << ": ";
+        std::cout << "Please enter the value for input #" << i + 1 << ": ";
         std::cin >> inp;
         input.push_back(inp);
     }
 
-    for (int i = 0; i < input.size(); i++) {
-        if (input[i] == "#") {
+    for (int i = 0; i < input.size(); i++)
+    {
+        if (input[i] == "#")
+        {
             int x0, x1;
             double y0, y1;
 
-            for (int f = i-1; f >= 0; f--) {
-                if (input[f] != "#") {
-                    x0 = f+1;
+            for (int f = i - 1; f >= 0; f--)
+            {
+                if (input[f] != "#")
+                {
+                    x0 = f + 1;
                     y0 = std::stod(input[f]);
                     break;
                 }
             }
 
-            for (int f = i+1; f < input.size(); f++) {
-                if (input[f] != "#") {
-                    x1 = f+1;
+            for (int f = i + 1; f < input.size(); f++)
+            {
+                if (input[f] != "#")
+                {
+                    x1 = f + 1;
                     y1 = std::stod(input[f]);
                     break;
                 }
             }
 
-            float ans = y0 + ((y1-y0)/(x1-x0)) * (i+1 - x0);
+            float ans = y0 + ((y1 - y0) / (x1 - x0)) * (i + 1 - x0);
             std::cout << round2(ans) << std::endl;
         }
     }
 }
 
-int main() {
-    linearInterpolation();
+float largest(float arr[], int n)
+    {
+        return *std::max_element(arr, arr+n);
+    }
+
+int findDishes()
+{
+    float price[8] = {
+        10,
+        78,
+        50,
+        20,
+        40,
+        5,
+        67,
+        35,
+    };
+
+    int lowestPrice = 0;
+    int li, lj, lk;
+
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            for (int k = 0; k < 8; k++)
+            {
+                if (i != j and j != k and i != k)
+                {
+                    int totalPrice = price[i] + price[j] + price[k];
+                    if ((totalPrice >= 80 and totalPrice < lowestPrice) or lowestPrice == 0)
+                    {
+                        lowestPrice = totalPrice;
+                        li = i;
+                        lj = j;
+                        lk = k;
+                    }
+                }
+            }
+        }
+    }
+
+    price[li] = 0;
+    price[lj] = 0;
+    price[lk] = 0;
+    
+    int maxPrice = largest(price, 8);
+    for (int i = 0; i < 8; i++)
+    {
+        if (price[i] == maxPrice)
+        {
+            price[i] = 0;
+            break;
+        }
+    }
+
+    for (int i = 0; i < 8; i++)
+    {
+        std::cout << price[i] << " ";
+    }
+}
+
+int main()
+{
+    findDishes();
 }
