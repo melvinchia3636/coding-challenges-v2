@@ -5,130 +5,168 @@
 #include <algorithm>
 #include <map>
 #include <numeric>
+#include <array>
 
-void printIntVector(std::vector<int> const &input) {
-    for (int i = 0; i < input.size(); i++) {
-        std::cout << input[i] << " ";
+using namespace std;
+
+void printIntVector(vector<int> const &input)
+{
+    for (int i = 0; i < input.size(); i++)
+    {
+        cout << input[i] << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 }
 
-void printStringVector(std::vector<std::string> const &input) {
-    for (int i = 0; i < input.size(); i++) {
-        std::cout << input[i] << " ";
+void printStringVector(vector<string> const &input)
+{
+    for (int i = 0; i < input.size(); i++)
+    {
+        cout << input[i] << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 }
 
-bool isNumberPalindrome(int num) {
-    std::string str = std::to_string(num);
-    std::string reversed_str = str;
-    std::reverse(reversed_str.begin(), reversed_str.end());
+bool isNumberPalindrome(int num)
+{
+    string str = to_string(num);
+    string reversed_str = str;
+    reverse(reversed_str.begin(), reversed_str.end());
     return str == reversed_str;
 }
 
-auto longBurp = [](int num) {return "Bu" + std::string(num, 'r') + "p";};
+auto longBurp = [](int num)
+{ return "Bu" + string(num, 'r') + "p"; };
 
-std::vector<int> amplify(int n) {
-    std::vector<int> result;
-    for (int i = 1; i <= n; i++) {
-        if (i % 4 == 0) {
+vector<int> amplify(int n)
+{
+    vector<int> result;
+    for (int i = 1; i <= n; i++)
+    {
+        if (i % 4 == 0)
+        {
             result.push_back(i * 10);
-        } else {
+        }
+        else
+        {
             result.push_back(i);
         }
     }
     return result;
 }
 
-int getAbsSum(std::vector<int> arr) {
+int getAbsSum(vector<int> arr)
+{
     int result = 0;
-	for (int i = 0; i < arr.size(); i++) {
-        result += std::abs(arr[i]);
+    for (int i = 0; i < arr.size(); i++)
+    {
+        result += abs(arr[i]);
     }
     return result;
 }
 
-std::string reverse(std::string str) {
-    std::reverse(str.begin(), str.end());
-	return str;
+string reverse(string str)
+{
+    reverse(str.begin(), str.end());
+    return str;
 }
 
-std::vector<std::string> sortByLength(std::vector<std::string> arr) {
-	std::sort(arr.begin(), arr.end(), [](std::string a, std::string b) {return a.size() < b.size();});
+vector<string> sortByLength(vector<string> arr)
+{
+    sort(arr.begin(), arr.end(), [](string a, string b)
+         { return a.size() < b.size(); });
     return arr;
 }
 
-std::vector<int> arrayOfMultiples(int num, int length) {
-	std::vector<int> result;
-    for (int i = 1; i <= length; i++) {
-        result.push_back(i*num);
+vector<int> arrayOfMultiples(int num, int length)
+{
+    vector<int> result;
+    for (int i = 1; i <= length; i++)
+    {
+        result.push_back(i * num);
     }
     return result;
 }
 
-std::vector<std::string> firstAndLast(std::string word) {
+vector<string> firstAndLast(string word)
+{
     sort(word.begin(), word.end());
-    std::string revesed_word = word;
+    string revesed_word = word;
     reverse(revesed_word.begin(), revesed_word.end());
-    return { word, revesed_word };
+    return {word, revesed_word};
 }
 
-std::vector<int> leader(std::vector<int> arr) {
-	std::vector<int> ans;
+vector<int> leader(vector<int> arr)
+{
+    vector<int> ans;
     bool valid = true;
-    
-    for (int i = 0; i < arr.size(); i++) {
+
+    for (int i = 0; i < arr.size(); i++)
+    {
         valid = true;
-        for (int j = i + 1; j < arr.size(); j++) {
-            if (arr[j] >= arr[i]) {
+        for (int j = i + 1; j < arr.size(); j++)
+        {
+            if (arr[j] >= arr[i])
+            {
                 valid = false;
                 break;
             }
         }
-        if (valid) ans.push_back(arr[i]);
+        if (valid)
+            ans.push_back(arr[i]);
     }
     return ans;
 }
 
-std::vector<std::vector<int>> allPairs(std::vector<int> arr, int target) {
-    std::vector<std::vector<int>> ans;
-	std::map<int, int> m;
+vector<vector<int>> allPairs(vector<int> arr, int target)
+{
+    vector<vector<int>> ans;
+    map<int, int> m;
 
-    for (int i = 0; i < arr.size(); i++) {
-        if (m.find(target-arr[i]) != m.end()) {
-            std::vector<int> a = {target-arr[i], arr[i]};
-            std::sort(a.begin(), a.end());
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if (m.find(target - arr[i]) != m.end())
+        {
+            vector<int> a = {target - arr[i], arr[i]};
+            sort(a.begin(), a.end());
             ans.push_back(a);
-        } else {
-            m[arr[i]] = target-arr[i];
+        }
+        else
+        {
+            m[arr[i]] = target - arr[i];
         }
     }
 
-    std::sort(ans.begin(), ans.end());
+    sort(ans.begin(), ans.end());
     return ans;
 }
 
-std::vector<std::vector<int>> slidingSum(std::vector<int> arr, int n, int k) {
-    std::vector<std::vector<int>> ans;
+vector<vector<int>> slidingSum(vector<int> arr, int n, int k)
+{
+    vector<vector<int>> ans;
 
-	for (int i = 0; i < arr.size() - n + 1; i++) {
-        if (std::accumulate(arr.begin() + i, arr.begin() + i + n, 0) == k) {
-            ans.push_back(std::vector<int>(arr.begin() + i, arr.begin() + i + n));
+    for (int i = 0; i < arr.size() - n + 1; i++)
+    {
+        if (accumulate(arr.begin() + i, arr.begin() + i + n, 0) == k)
+        {
+            ans.push_back(vector<int>(arr.begin() + i, arr.begin() + i + n));
         }
     }
 
     return ans;
 }
 
-bool firstBeforeSecond(std::string str, char first, char second) {
-	return str.find_last_of(first) < str.find(second);
+bool firstBeforeSecond(string str, char first, char second)
+{
+    return str.find_last_of(first) < str.find(second);
 }
 
-std::vector<int> digitalCipher(std::string message, int key) {
-	std::string key_char = std::to_string(key);
-    std::vector<int> ans;
-    for (int i = 0; i < message.size(); i++) {
+vector<int> digitalCipher(string message, int key)
+{
+    string key_char = to_string(key);
+    vector<int> ans;
+    for (int i = 0; i < message.size(); i++)
+    {
         int c = message[i] - 'a';
         int k = key_char[i % key_char.size()] - '0';
         ans.push_back(c + k + 1);
@@ -136,35 +174,134 @@ std::vector<int> digitalCipher(std::string message, int key) {
     return ans;
 }
 
-std::string getFirstItem(std::string arr[10]) {
+string getFirstItem(string arr[10])
+{
     return arr[0];
 }
 
-int main() {
+bool isSafeBridge(string s)
+{
+    return s.find(" ") != string::npos;
+}
+
+string doubleSwap(string s, char c1, char c2)
+{
+    for (char &c : s)
+    {
+        if (c == c1)
+            c = c2;
+        else if (c == c2)
+            c = c1;
+    }
+    return s;
+}
+
+string uncensor(string str, string vowels)
+{
+    for (int i = str.size(); i >= 0; i--)
+    {
+        if (str[i] == '*')
+        {
+            str[i] = vowels[vowels.size() - 1];
+            vowels.pop_back();
+        }
+    }
+    return str;
+}
+
+int letterCounter(vector<vector<char>> arr, char c)
+{
+    auto flattened = accumulate(
+        arr.begin(),
+        arr.end(),
+        decltype(arr)::value_type{},
+        [](auto x, auto y)
+        {
+            x.insert(x.end(), y.begin(), y.end());
+            return x;
+        });
+
+    return count(flattened.begin(), flattened.end(), c);
+}
+
+int letterCounter2(vector<vector<char>> arr, char c)
+{
+    int count = 0;
+    for (vector<char> i : arr)
+    {
+        for (char j : i)
+        {
+            if (j == c)
+                count++;
+        }
+    }
+
+    return count;
+}
+
+array<int, 2> sumOddAndEven(std::vector<int> arr)
+{
+    array<int, 2> sum = {0, 0};
+
+    for (int i : arr)
+    {
+        sum[abs(i % 2)] += i;
+    }
+
+    return sum;
+}
+
+vector<vector<int>> squarePatch(int n)
+{
+    vector<vector<int>> ans(n, vector<int>(n, n));
+    return ans;
+}
+
+int main()
+{
     // cout << isNumberPalindrome(1122332211) << endl;
-    // std::cout << longBurp(13) << std::endl;
+    // cout << longBurp(13) << endl;
     // printStrVector(amplify(20));
-    // std::cout << getAbsSum({-1, -3, -5, -4, -10, 0}) << std::endl;
-    // std::cout << reverse("Hello World!") << std::endl;
+    // cout << getAbsSum({-1, -3, -5, -4, -10, 0}) << endl;
+    // cout << reverse("Hello World!") << endl;
     // printStringVector(sortByLength({"Leonardo", "Michelangelo", "Raphael", "Donatello"}));
     // printIntVector(arrayOfMultiples(7, 10));
     // printStringVector(firstAndLast("marmite"));
     // printIntVector(leader({8, 7, 1, 2, 10, 3, 5}));
-    // std::vector<std::vector<int>> ans = allPairs({4, 5, 1, 3, 6, 8}, 9);
+    // vector<vector<int>> ans = allPairs({4, 5, 1, 3, 6, 8}, 9);
     // for (int i = 0; i < ans.size(); i++) {
     //     printIntVector(ans[i]);
     // }
-    // std::vector<std::vector<int>> ans = slidingSum({1, 4, 2, 3, 5, 0}, 2, 5);
+    // vector<vector<int>> ans = slidingSum({1, 4, 2, 3, 5, 0}, 2, 5);
     // for (int i = 0; i < ans.size(); i++) {
     //     printIntVector(ans[i]);
     // }
-    // std::cout << firstBeforeSecond("a rabbit jumps joyfully", 'a', 'j') << std::endl;
+    // cout << firstBeforeSecond("a rabbit jumps joyfully", 'a', 'j') << endl;
     // printIntVector(digitalCipher("pakistanairforce", 1965));
     // printStringVector(bestWords({"berry","whiz","laughed","ghetto","psychic"}));
-    std::string arr[10] = {"Hello", "World"};
-    arr[9] = "!";
-    arr[4] = "Fuck my life";
-    for (int i = 0; i < sizeof(arr); i++) {
-        std::cout << i << " " << arr[i] << std::endl;
+
+    // cout << isSafeBridge("####") << endl;
+    // cout << doubleSwap("**##**", '*', '#') << endl;
+    // cout << uncensor("Wh*r* d*d my v*w*ls g*?", "eeioeo") << endl;
+
+    // vector<vector<char>> nestedArr = {
+    //     {'D', 'E', 'Y', 'H', 'A', 'D'},
+    //     {'C', 'B', 'Z', 'Y', 'J', 'K'},
+    //     {'D', 'B', 'C', 'A', 'M', 'N'},
+    //     {'F', 'G', 'G', 'R', 'S', 'R'},
+    //     {'V', 'X', 'H', 'A', 'S', 'S'}};
+
+    // cout << letterCounter2(nestedArr, 'D') << endl;
+
+    vector<vector<int>> sus = squarePatch(5);
+
+    for (int i = 0; i < 5; i++)
+    {
+        cout << "[";
+        for (int j = 0; j < 5; j++)
+        {
+            cout << sus[i][j] << (j < 4 ? ", " : "");
+        }
+        cout << "]" << endl;
     }
 }
